@@ -76,7 +76,7 @@ Elise.W = SpellLib.Skillshot({
 
 Elise.E = SpellLib.Skillshot({
   Slot = SpellSlots.E,
-  Range = 1075,
+  Range = 1100,
   Delay = 0.25,
   Radius = 55,
   Speed = 1300,
@@ -597,7 +597,7 @@ function Elise.Farm()
 end
 
 function Elise.OnGapclose(source,dash)
-  if source.IsEnemy and source.IsHero and Menu.Get("anti-gap") then
+  if source.IsEnemy and not source.IsHero and Menu.Get("anti-gap") then
     local paths = dash:GetPaths()
     local endPos = paths[#paths].EndPos
     local startPos = paths[#paths].StartPos
@@ -747,7 +747,30 @@ function Elise.OnUpdate()
   end
   return false
 end
-
+function Elise.OnDraw()
+  if Player.IsVisible and Player.IsOnScreen and not Player.IsDead then
+    local Pos = Player.Position
+    local spells = {Elise.E2}
+    for k, v in pairs(spells) do
+      if Menu.Get("Drawing."..v.Key..".Enabled", true) then
+        if Renderer.DrawCircle3D(Pos, v.Range, 30, 3, Menu.Get("Drawing."..v.Key..".Color")) then return true end
+      end
+    end
+  end
+  local status, color
+  local p = Player.Position:ToScreen()
+  if Menu.Get("eCombo.Spider") then
+    status, color = "Rappel: Enabled", 0x00FF00FF
+    p.x = p.x - 63
+    p.y = p.y + 33
+  else
+    status, color = "Rappel: Disabled", 0xFF0000FF
+    p.x = p.x - 66
+    p.y = p.y + 33
+  end
+  Renderer.DrawText(p, {x=500,y=500}, status, color)
+  return false
+end
 function Elise.LoadMenu()
   local function EliseMenu()
     Menu.ColumnLayout("Casting", "Casting", 2, true, function ()
@@ -761,7 +784,7 @@ function Elise.LoadMenu()
     Menu.Checkbox("wHarass", "W Human Harass", true)
     Menu.ColoredText("> E", 0xB65A94FF, true)
     Menu.Checkbox("eCombo", "E Human Combo", true)
-    Menu.Checkbox("eCombo.Spider", "E Spider Combo", true)
+    Menu.Keybind("eCombo.Spider", "Toggle E Spider Combo", string.byte('T'), true,true)
     Menu.Checkbox("eHarass", "E Human Harass", true)
     Menu.ColoredText("> R", 0xB65B94FF, true)
     Menu.Checkbox("rCombo", "Auto Switch Form Combo", true)
@@ -777,6 +800,9 @@ function Elise.LoadMenu()
     Menu.Checkbox("autoswitch", "Auto Switch", false)
     Menu.ColoredText("Misc", 0xB65B97FF, true)
     Menu.Checkbox("anti-gap", "Anti-gapcloser Spider E", true)
+    Menu.ColoredText("Drawing", 0xB65A94FF, true)
+    Menu.Checkbox("Drawing.E.Enabled",   "Draw Rappel Range",true)
+    Menu.ColorPicker("Drawing.E.Color", "Draw Rappel Color", 0x118AB2FF)
     Menu.Separator()
     end)
   end
