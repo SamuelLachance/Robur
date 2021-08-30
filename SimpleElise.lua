@@ -776,7 +776,7 @@ function Elise.LoadMenu()
     Menu.Checkbox("wFarm.Spider", "W Farm Spider", true)
     Menu.Checkbox("autoswitch", "Auto Switch", false)
     Menu.ColoredText("Misc", 0xB65B97FF, true)
-    Menu.Checkbox("anti-gap", "Anti-gapcloser Human E", true)
+    Menu.Checkbox("anti-gap", "Anti-gapcloser Spider E", true)
     Menu.Separator()
     end)
   end
