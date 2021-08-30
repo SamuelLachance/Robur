@@ -433,7 +433,7 @@ function Elise.LogicW()
     if (Combo and Menu.Get("wCombo")) or (Harass and Menu.Get("wHarass")) then
       for k, enemy in pairs(ObjectManager.GetNearby("enemy", "heroes")) do
         local target = enemy.AsHero
-        if (Utils.CanMove(target) and TS:IsValidTarget(target,Elise.Q.Range)) or (not Utils.CanMove(target) and TS:IsValidTarget(target,Elise.W.Range))  then
+        if (Utils.CanMove(target) and TS:IsValidTarget(target,Elise.W.Range-100)) or (not Utils.CanMove(target) and TS:IsValidTarget(target,Elise.W.Range))  then
           local wPred = Elise.W:GetPrediction(target)
           if Elise.W:CanCast(target) and wPred and wPred.HitChanceEnum >= HitChanceEnum.Low then
             if Elise.W:Cast(wPred.CastPosition) then return true end
