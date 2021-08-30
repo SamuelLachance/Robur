@@ -473,7 +473,6 @@ function Elise.LogicE()
     if Combo and (Menu.Get("eCombo.Spider") or Utils.HasBuff(Player,"EliseSpiderE")) then
       local target = TS:GetTarget(Elise.E.Range)
       if TS:IsValidTarget(target,Elise.E.Range) then
-        printf(Elise.ReachTime(target))
         if Player:Distance(target.Position) <= Elise.E2.Range and Player:Distance(target.Position) > Elise.Q2.Range and (Elise.ReachTime(target) > 2.2 or target.HealthPercent < 10 or (not Elise.Q2:IsReady() and not Elise.W2:IsReady())) then
           if Elise.E2:Cast(target) then return true end
         end
@@ -497,13 +496,6 @@ function Elise.LogicR()
         if Elise.R:Cast() then return true end
       end
     end
-  end
-  return false
-end
-
-function Elise.OnBuffGain(obj,buffInst)
-  if obj.IsAlly then
-    if printf(buffInst.Name) then return true end
   end
   return false
 end
