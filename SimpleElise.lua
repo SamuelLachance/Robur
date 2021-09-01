@@ -462,7 +462,7 @@ function Elise.LogicE()
         local target = enemy.AsHero
         if TS:IsValidTarget(target,Elise.E.Range) then
           local ePred = Elise.E:GetPrediction(target)
-          if Elise.E:CanCast(target) and ePred and ePred.HitChanceEnum >= HitChanceEnum.Medium and not Player.IsWindingUp and not Player.Pathing.IsDashing then
+          if Elise.E:CanCast(target) and ePred and ePred.HitChanceEnum >= HitChanceEnum.High and not Player.IsWindingUp and not Player.Pathing.IsDashing then
             if Elise.E:Cast(ePred.CastPosition) then return true end
           end
         end
