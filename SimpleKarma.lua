@@ -291,7 +291,7 @@ function Karma.OnGapclose(source,dash)
 end
 
 function Karma.OnProcessSpell(sender,spell)
-  if sender.IsHero and sender.IsEnemy and Menu.Get("Misc.AutoE") and Player.Mana > eMana and Karma.E:IsReady() then
+  if sender.IsHero and sender.IsEnemy and Menu.Get("autoE") and Player.Mana > eMana and Karma.E:IsReady() then
     for _, v in pairs(ObjectManager.GetNearby("ally","heroes")) do
       local ally = v.AsHero
       if Menu.Get("1" .. ally.CharName) and Karma.E:IsInRange(ally) and Player:Distance(spell.EndPos) <= Karma.E.Range then
@@ -425,7 +425,7 @@ function Karma.LogicE()
       end
     end
   end
-  if Menu.Get("Misc.AutoE") and Karma.E:IsReady() and Player.Mana > eMana then
+  if Menu.Get("autoE") and Karma.E:IsReady() and Player.Mana > eMana then
     for _, v in ipairs(ObjectManager.GetNearby("ally","heroes")) do
       local ally = v.AsHero
       local incomingDamage = HPred.GetDamagePrediction(ally,0.5,false)
@@ -433,7 +433,7 @@ function Karma.LogicE()
         if Karma.E:Cast(ally) then return true end
       end
       for k, enemy in ipairs(ObjectManager.GetNearby("enemy", "heroes")) do
-        if Karma.E:IsInRange(ally) and Menu.Get("1" .. ally.CharName) and ally:Distance(enemy.AsHero.Position) < 400 and enemy.IsVisible then
+        if Utils.IsValidTarget(enemy) and Karma.E:IsInRange(ally) and Menu.Get("1" .. ally.CharName) and ally:Distance(enemy.AsHero.Position) < 100 and enemy.IsVisible then
           if Karma.E:Cast(ally) then return true end
         end
       end
@@ -547,7 +547,7 @@ function Karma.LoadMenu()
     Menu.ColoredText("> R", 0x0066CCFF, false)
     Menu.Checkbox("JungleClear.R", "Use R", true)
     Menu.ColoredText("Misc", 0xB65A94FF, true)
-    Menu.Checkbox("Misc.AutoE", "Auto E Shield", true)
+    Menu.Checkbox("autoE", "Auto E Shield", true)
     Menu.NewTree("EList","E ally whitelist", function()
     Menu.ColoredText("E Whitelist", 0x06D6A0FF, true)
     for _, Object in pairs(ObjectManager.Get("ally", "heroes")) do
