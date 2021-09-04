@@ -306,13 +306,13 @@ function Morgana.LogicQ()
   local target = TS:GetTarget(Morgana.Q.Range,false)
   if (Combo or Harass) and Utils.IsValidTarget(target) then
     local qPred = Morgana.Q:GetPrediction(target)
-    if qPred and qPred.HitChanceEnum >= HitChanceEnum.High then
+    if qPred and qPred.HitChanceEnum >= HitChanceEnum.VeryHigh then
       if Morgana.Q:Cast(qPred.CastPosition) then return true end
     end
   end
   for _, v in pairs(ObjectManager.GetNearby("enemy","heroes")) do
     local enemy = v.AsHero
-    if not Utils.CanMove(enemy) and Player:Distance(enemy.Position) < Morgana.Q.Range then
+    if Utils.IsValidTarget(enemy) and not Utils.CanMove(enemy) and Player:Distance(enemy.Position) < Morgana.Q.Range then
       local qPred = Morgana.Q:GetPrediction(enemy)
       if qPred and qPred.HitChanceEnum >= HitChanceEnum.VeryHigh then
         if Morgana.Q:Cast(enemy.Position) then return true end
@@ -332,7 +332,7 @@ function Morgana.LogicW()
   end
   for _, v in pairs(ObjectManager.GetNearby("enemy","heroes")) do
     local enemy = v.AsHero
-    if not Utils.CanMove(enemy) and Player:Distance(enemy.Position) < Morgana.W.Range then
+    if Utils.IsValidTarget(enemy) and not Utils.CanMove(enemy) and Player:Distance(enemy.Position) < Morgana.W.Range then
       local wPred = Morgana.W:GetPrediction(enemy)
       if wPred and wPred.HitChanceEnum >= HitChanceEnum.VeryHigh then
         if Morgana.W:Cast(enemy.Position) then return true end
@@ -390,7 +390,7 @@ function Morgana.OnGapclose(source,dash)
     local paths = dash:GetPaths()
     local endPos = paths[#paths].EndPos
     local qPred = Morgana.Q:GetPrediction(source)
-    if Player:Distance(endPos) <= 400 and Menu.Get("autoQ") and Morgana.Q:IsReady() and qPred.HitChanceEnum == HitChanceEnum.Dashing then
+    if Player:Distance(endPos) <= 400 and Menu.Get("AutoQG") and Morgana.Q:IsReady() and qPred.HitChanceEnum == HitChanceEnum.Dashing then
       for _, v in pairs(ObjectManager.GetNearby("enemy","heroes")) do
         local enemy = v.AsHero
         if enemy.CharName == source.AsHero.CharName then
@@ -496,6 +496,7 @@ function Morgana.LoadMenu()
     Menu.ColumnLayout("Casting", "Casting", 2, true, function ()
     Menu.ColoredText("> Q", 0xB65A94FF, true)
     Menu.Checkbox("autoQ", "Auto Q", true)
+    Menu.Checkbox("AutoQG", "Auto Q Gapclose", true)
     Menu.ColoredText("> W", 0x118AB2FF, true)
     Menu.Checkbox("autoW", "Auto W", true)
     Menu.ColoredText("> E", 0x0066CCFF, true)
