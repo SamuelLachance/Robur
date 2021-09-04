@@ -316,7 +316,7 @@ end
 function Ezreal.CanCastW(target)
   if Ezreal.W:IsReady() then
     local wPred = Ezreal.W:GetPrediction(target)
-    if wPred and wPred.HitChanceEnum >= HitChanceEnum.VeryHigh and Player:Distance(target.Position)	<= 1100 then
+    if wPred and wPred.HitChanceEnum >= HitChanceEnum.VeryHigh and Player:Distance(target.Position)	<= 1150 then
       return true
     end
   end
