@@ -326,7 +326,7 @@ end
 function Ezreal.LogicQ()
   local target = TS:GetTarget(Ezreal.Q.Range,false)
   if Utils.IsValidTarget(target) then
-    if (Combo and Menu.Get("Combo.Q") and Player.Mana > qMana + rMana and (not Ezreal.CanCastW(target) or Menu.Get("Combo.W"))) or (Harass or Waveclear and Menu.Get("Harass.Q") and Player.Mana > eMana + qMana + wMana+rMana or (Menu.Get("HarassOn") and Menu.Get("Harass.Q")) and (not Ezreal.CanCastW(target) or Menu.Get("Harass.W"))) then
+    if (Combo and Menu.Get("Combo.Q") and Player.Mana > qMana + rMana and (not Ezreal.CanCastW(target) or Menu.Get("Combo.W"))) or (Harass and Menu.Get("Harass.Q") and Player.Mana > eMana + qMana + wMana+rMana or (Menu.Get("HarassOn") and Menu.Get("Harass.Q")) and (not Ezreal.CanCastW(target) or Menu.Get("Harass.W"))) then
       if not Ezreal.CanCastW(target) or target.Health < Ezreal.Q:GetDamage(target) then
         local qPred = Ezreal.Q:GetPrediction(target)
         if qPred and qPred.HitChanceEnum >= HitChanceEnum.High then
