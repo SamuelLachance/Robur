@@ -411,7 +411,7 @@ function Ezreal.LogicW()
 end
 
 function Ezreal.LogicE()
-  if Combo and Menu.Get("Combo.E") and Ezreal.E:IsReady() and not Utils.IsUnderTurret(Player) and Game.GetTime() - overkill > 0.3 then
+  if Combo and Menu.Get("Combo.E") and Ezreal.E:IsReady() and not Utils.IsUnderTurret(Player) and Game.GetTime() - overkill > 0.1 then
     for k, enemy in pairs(ObjectManager.GetNearby("enemy", "heroes")) do
       if Utils.IsValidTarget(enemy) and enemy:Distance(Renderer.GetMousePos()) + 300 < Player:Distance(enemy.Position) and Player:Distance(enemy.Position) > Orbwalker.GetTrueAutoAttackRange() and Player:Distance(enemy.Position) <= 1300 then
         local dashPos = Player.Position:Extended(Renderer.GetMousePos(),Ezreal.E.Range)
@@ -449,7 +449,7 @@ function Ezreal.LogicR()
         if Ezreal.R:Cast(rPred.CastPosition) then return true end
       end
     end
-    if Menu.Get("AutoR") and Ezreal.R:IsReady() and Player.Mana > rMana and Utils.CountHeroes(Player,800,"enemy") == 0  and Game.GetTime() - overkill > 0.3  and not Utils.IsUnderTurret(Player) then
+    if Menu.Get("AutoR") and Ezreal.R:IsReady() and Player.Mana > rMana and Utils.CountHeroes(Player,800,"enemy") == 0  and Game.GetTime() - overkill > 0.1  and not Utils.IsUnderTurret(Player) then
       local delay = (Player:Distance(target.Position)/ Ezreal.R.Speed + Ezreal.R.Delay)*1000
       local hpPred = HPred.GetHealthPrediction(target,delay,false)
       local rPred = Ezreal.R:GetPrediction(target)
