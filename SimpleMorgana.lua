@@ -326,13 +326,13 @@ function Morgana.LogicW()
   local target = TS:GetTarget(Morgana.W.Range)
   if Utils.IsValidTarget(target) then
     local predW = Morgana.W:GetPrediction(target)
-    if (Combo or Harass) and predW and Player.Mana > qMana + wMana + eMana + rMana and predW.HitChanceEnum >= HitChanceEnum.VeryHigh and not target.IsZombie then
+    if (Combo or Harass) and predW and Player.Mana > qMana + wMana + eMana + rMana and predW.HitChanceEnum >= HitChanceEnum.VeryHigh and not target.IsZombie and Menu.Get("autoW") then
       if Morgana.W:Cast(predW.CastPosition) then return true end
     end
   end
   for _, v in pairs(ObjectManager.GetNearby("enemy","heroes")) do
     local enemy = v.AsHero
-    if Utils.IsValidTarget(enemy) and not Utils.CanMove(enemy) and Player:Distance(enemy.Position) < Morgana.W.Range then
+    if Utils.IsValidTarget(enemy) and not Utils.CanMove(enemy) and Player:Distance(enemy.Position) < Morgana.W.Range and Menu.Get("autoWcc") then
       local wPred = Morgana.W:GetPrediction(enemy)
       if wPred and wPred.HitChanceEnum >= HitChanceEnum.VeryHigh then
         if Morgana.W:Cast(enemy.Position) then return true end
@@ -457,7 +457,7 @@ function Morgana.OnUpdate()
   if Utils.NoLag(2) and Morgana.Q:IsReady() and Menu.Get("autoQ") and not Orbwalker.IsWindingUp() then
     if Morgana.LogicQ() then return true end
   end
-  if Utils.NoLag(3) and Morgana.W:IsReady() and Menu.Get("autoW") and not Orbwalker.IsWindingUp() then
+  if Utils.NoLag(3) and Morgana.W:IsReady() and not Orbwalker.IsWindingUp() then
     if Morgana.LogicW() then return true end
   end
   if Utils.NoLag(4) and Morgana.E:IsReady() and Menu.Get("autoE") and Player.Mana > eMana then
@@ -498,7 +498,8 @@ function Morgana.LoadMenu()
     Menu.Checkbox("autoQ", "Auto Q", true)
     Menu.Checkbox("AutoQG", "Auto Q Gapclose", true)
     Menu.ColoredText("> W", 0x118AB2FF, true)
-    Menu.Checkbox("autoW", "Auto W", true)
+    Menu.Checkbox("autoW", "Auto W Combo/Harass", true)
+    Menu.Checkbox("autoWcc", "Auto W on CC", true)
     Menu.ColoredText("> E", 0x0066CCFF, true)
     Menu.Checkbox("autoE", "Auto E", true)
     Menu.NewTree("EList","E ally whitelist", function()
