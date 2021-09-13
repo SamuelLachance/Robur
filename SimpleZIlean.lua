@@ -56,11 +56,11 @@ local Qobj = {}
 Zilean.Q = SpellLib.Skillshot({
   Slot = Enums.SpellSlots.Q,
   Range = 900,
-  Speed = 2000,
-  Radius = 105,
+  Speed = math_huge,
+  Radius = 70,
   Type = "Circular",
   Collisions = {WindWall = true},
-  Delay = 0.30,
+  Delay = 0.7,
   UseHitbox = true ,
   Key = "Q"
 })
