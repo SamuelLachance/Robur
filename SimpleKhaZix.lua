@@ -515,7 +515,6 @@ function KhaZix.Jungle()
           if KhaZix.W:Cast(minionFocus.Position) then return true end
         end
       else
-        TS:ForceTarget(minionFocus)
         if KhaZix.Q:IsReady() and Player.Mana > qMana and Menu.Get("qFarm") and not KhaZix.W:IsReady() then
           if KhaZix.Q:Cast(minionFocus) then return true end
         end
@@ -547,7 +546,7 @@ function KhaZix.ComboDMG(target)
   if KhaZix.E:IsReady() then
     dmg = dmg + DamageLib.CalculatePhysicalDamage(Player, target, 30+35*Player.Level+0.2*Player.BonusAD)
   end
-  return dmg
+  return dmg/1.3
 end
 
 function KhaZix.Isolated(target)
