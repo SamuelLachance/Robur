@@ -56,19 +56,20 @@ Karma.Q = SpellLib.Skillshot({
   Delay = 0.25,
   Speed = 1700,
   Radius = 60,
-  EffectRadius = 280,
   Collisions = {Minions = true, WindWall = true },
+  UseHitbox = true ,
   Type = "Linear",
   Key = "Q"
 })
 Karma.Q2 = SpellLib.Skillshot({
   Slot = SpellSlots.Q,
-  Range = 1230,
+  Range = 1050,
   Delay = 0.25,
   Speed = 1700,
-  Radius = 120,
+  Radius = 80,
   EffectRadius = 280,
   Collisions = {Minions = true, WindWall = true },
+  UseHitbox = true ,
   Type = "Linear",
   Key = "Q"
 })
