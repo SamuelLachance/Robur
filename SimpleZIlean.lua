@@ -56,11 +56,11 @@ local Qobj = {}
 Zilean.Q = SpellLib.Skillshot({
   Slot = Enums.SpellSlots.Q,
   Range = 900,
-  Speed = math_huge,
-  Radius = 115,
+  Speed = 2000,
+  Radius = 140,
   Type = "Circular",
   Collisions = {WindWall = true},
-  Delay = 0.7,
+  Delay = 0.25,
   UseHitbox = true,
   Key = "Q"
 })
@@ -306,7 +306,7 @@ function Zilean.LogicQ()
     local target = TS:GetTarget(Zilean.Q.Range,false)
     if Utils.IsValidTarget(target) then
       local qPred = Zilean.Q:GetPrediction(target)
-      if qPred and qPred.HitChanceEnum >= HitChanceEnum.VeryHigh then
+      if qPred and qPred.HitChanceEnum >= HitChanceEnum.High then
         if Zilean.Q:Cast(qPred.CastPosition) then return true end
       end
     end
