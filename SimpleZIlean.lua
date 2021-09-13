@@ -57,10 +57,10 @@ Zilean.Q = SpellLib.Skillshot({
   Slot = Enums.SpellSlots.Q,
   Range = 900,
   Speed = 2000,
-  Radius = 70,
+  Radius = 105,
   Type = "Circular",
   Collisions = {WindWall = true},
-  Delay = 0.25,
+  Delay = 0.30,
   UseHitbox = true ,
   Key = "Q"
 })
@@ -318,7 +318,7 @@ function Zilean.LogicQ()
         table.insert(enemies, pos)
       end
     end
-    local qCastPosC, hitCountC = Zilean.Q:GetBestCircularCastPos(enemies,210)
+    local qCastPosC, hitCountC = Zilean.Q:GetBestCircularCastPos(enemies,300)
     if Utils.IsValidTarget(target) then
       local qPred = Zilean.Q:GetPrediction(target)
       if qPred and qPred.HitChanceEnum >= HitChanceEnum.High and hitCountC < 2 then
