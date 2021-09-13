@@ -79,7 +79,7 @@ Elise.E = SpellLib.Skillshot({
   Range = 1100,
   Delay = 0.25,
   Radius = 55,
-  Speed = 1300,
+  Speed = 1600,
   Collisions = {Minions = true, WindWall = true},
   Type = "Linear",
   Key = "E"
