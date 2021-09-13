@@ -57,11 +57,11 @@ Zilean.Q = SpellLib.Skillshot({
   Slot = Enums.SpellSlots.Q,
   Range = 900,
   Speed = 2000,
-  Radius = 140,
+  Radius = 70,
   Type = "Circular",
   Collisions = {WindWall = true},
   Delay = 0.25,
-  UseHitbox = true,
+  UseHitbox = true ,
   Key = "Q"
 })
 
@@ -302,16 +302,33 @@ function Zilean.OnGapclose(source,dash)
 end
 
 function Zilean.LogicQ()
-  if (Combo and Menu.Get("Combo.Q") and Player.Mana > qMana) or (Harass and Menu.Get("Harass.Q") and Player.Mana > (eMana + qMana + wMana+rMana)*2) then
+  if (Combo and Menu.Get("Combo.Q") and Player.Mana > qMana) or (Harass and Menu.Get("Harass.Q") and Player.Mana > eMana + qMana + wMana+rMana) then
+    for k, enemies in pairs(ObjectManager.Get("enemy", "heroes")) do
+      local enemy = enemies.AsHero
+      if Utils.IsValidTarget(enemy) and Utils.HasQZileanBuff(enemy) then
+        TS:ForceTarget(enemy)
+      end
+    end
     local target = TS:GetTarget(Zilean.Q.Range,false)
+    local enemies = {}
+    for k, enemies in pairs(ObjectManager.Get("enemy", "heroes")) do
+      local enemy = enemies.AsHero
+      local pos = enemy:FastPrediction(Game.GetLatency() + Zilean.Q.Delay)
+      if Utils.IsValidTarget(enemy) and Player:Distance(enemy.Position) <= Zilean.Q.Range+100 then
+        table.insert(enemies, pos)
+      end
+    end
+    local qCastPosC, hitCountC = Zilean.Q:GetBestCircularCastPos(enemies,210)
     if Utils.IsValidTarget(target) then
       local qPred = Zilean.Q:GetPrediction(target)
-      if qPred and qPred.HitChanceEnum >= HitChanceEnum.High then
+      if qPred and qPred.HitChanceEnum >= HitChanceEnum.High and hitCountC < 2 then
         if Zilean.Q:Cast(qPred.CastPosition) then return true end
+      elseif qPred and qPred.HitChanceEnum >= HitChanceEnum.High and hitCountC >= 2 then
+        if Zilean.Q:Cast(qCastPosC) then return true end
       end
     end
   end
-  if Waveclear and Menu.Get("WaveClear.Q") and Player.Mana > (eMana + qMana + wMana)*3 then
+  if Waveclear and Menu.Get("WaveClear.Q") and Player.Mana > eMana + qMana + wMana + rMana then
     local minionsQ = {}
     local monstersQ = {}
     for k, v in pairs(ObjectManager.GetNearby("enemy", "minions")) do
@@ -345,7 +362,7 @@ function Zilean.LogicQ()
 end
 
 function Zilean.LogicW()
-  if not Zilean.Q:IsReady() and (Combo and Menu.Get("Combo.W") and Player.Mana > qMana) or (Harass and Menu.Get("Harass.W") and Player.Mana > (eMana + qMana + wMana + rMana)*2) then
+  if not Zilean.Q:IsReady() and (Combo and Menu.Get("Combo.W") and Player.Mana > qMana) or (Harass and Menu.Get("Harass.W") and Player.Mana > eMana + qMana + wMana + rMana) then
     for k, hero in ipairs(ObjectManager.GetNearby("all", "heroes")) do
       if Utils.HasQZileanBuff(hero) then
         if Zilean.W:Cast() then return true end
@@ -357,7 +374,7 @@ function Zilean.LogicW()
       end
     end
   end
-  if not Zilean.Q:IsReady() and Waveclear and Menu.Get("WaveClear.W") and Player.Mana > (eMana + qMana + wMana+rMana)*3 then
+  if not Zilean.Q:IsReady() and Waveclear and Menu.Get("WaveClear.W") and Player.Mana > eMana + qMana + wMana+rMana then
     for k, enemy in ipairs(ObjectManager.GetNearby("enemy", "minions")) do
       if Utils.HasQZileanBuff(enemy) then
         if Zilean.W:Cast() then return true end
@@ -373,7 +390,7 @@ function Zilean.LogicW()
 end
 
 function Zilean.LogicE()
-  if (Combo and Menu.Get("Combo.E") and Player.Mana > qMana+eMana+wMana+rMana) or (Harass and Menu.Get("Harass.E") and Player.Mana > (eMana + qMana + wMana+rMana)*2) then
+  if (Combo and Menu.Get("Combo.E") and Player.Mana > qMana+eMana+wMana+rMana) or (Harass and Menu.Get("Harass.E") and Player.Mana > eMana + qMana + wMana+rMana) then
     for k, enemy in ipairs(Utils.GetTargets(Zilean.E)) do
       if Utils.HasQZileanBuff(enemy) or Zilean.Q:IsReady() then
         if Zilean.E:Cast(enemy) then return true end
