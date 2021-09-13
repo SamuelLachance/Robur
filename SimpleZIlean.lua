@@ -403,7 +403,7 @@ function Zilean.LogicR()
       local ally = v.AsHero
       local incomingDamage = HPred.GetDamagePrediction(ally,1,false)
       local enemies = Utils.CountHeroes(ally.Position,700,"enemy")
-      if Zilean.R:IsInRange(ally) and Menu.Get("1" .. ally.CharName) and ally.Health - incomingDamage < enemies * ally.Level * 15 and Utils.ValidUlt(ally) then
+      if Zilean.R:IsInRange(ally) and Menu.Get("1" .. ally.CharName) and ally.Health - incomingDamage < enemies * ally.Level * 25 and Utils.ValidUlt(ally) then
         if Zilean.R:Cast(ally) then return true end
       end
     end
