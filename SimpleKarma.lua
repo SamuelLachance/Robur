@@ -63,7 +63,7 @@ Karma.Q = SpellLib.Skillshot({
 })
 Karma.Q2 = SpellLib.Skillshot({
   Slot = SpellSlots.Q,
-  Range = 1050,
+  Range = 1150,
   Delay = 0.25,
   Speed = 1700,
   Radius = 80,
